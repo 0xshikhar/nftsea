@@ -22,40 +22,24 @@ import {
 import 'dotenv/config'
 
 import {
+    arbitrumSepolia,
+    sepolia,
+    arbitrum,
     mainnet,
-    sepolia
 } from 'wagmi/chains';
-import { agentChain } from '@/lib/customChain';
 
-// const projectId = process.env.WALLET_CONNECT_PROJECT_ID || '';
 const projectId = '9811958bd307518b364ff7178034c435';
 
 
 const config = getDefaultConfig({
-    appName: 'My RainbowKit App',
+    appName: 'NFTsea',
     projectId: projectId,
-    chains: [mainnet, sepolia, agentChain],
+    chains: [arbitrumSepolia, sepolia, arbitrum, mainnet],
     ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-// const connectors = connectorsForWallets([
-//     ...wallets,
-//     {
-//         groupName: 'Other',
-//         wallets: [
-//             argentWallet({ projectId, chains }),
-//             trustWallet({ projectId, chains }),
-//             ledgerWallet({ projectId, chains }),
-//         ],
-//     },
-// ]);
-const { wallets } = getDefaultWallets({
-    appName: 'RainbowKit demo',
-    projectId,
-});
-
 const demoAppInfo = {
-    appName: 'My Wallet Demo',
+    appName: 'NFTsea',
 };
 
 const queryClient = new QueryClient();

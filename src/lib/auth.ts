@@ -7,7 +7,7 @@ export async function createAuthMessage(address: string, chainId: number) {
     const message = new SiweMessage({
         domain: window.location.host,
         address,
-        statement: 'Sign in to Next Demo application',
+        statement: 'Sign in to NFTsea marketplace',
         uri: window.location.origin,
         version: '1',
         chainId,
@@ -32,33 +32,23 @@ export interface JwtPayload {
 }
 
 // Generate a JWT token
-export function generateJwtToken(payload: Omit<JwtPayload, 'iat' | 'exp'>) {
-    const secret = process.env.JWT_SECRET;
+export function generateJwtToken(payload: { userId: string; address: string }) {
+    const secret = process.env.JWT_SECRET || 'your-secret-key';
 
-    if (!secret) {
-        throw new Error('JWT_SECRET is not defined in environment variables');
-    }
-
-    return jwt.sign(payload, secret, { expiresIn: '1d' });
+    return jwt.sign(payload, secret, {
+        expiresIn: '7d' // Token expires in 7 days
+    });
 }
 
 // Verify a JWT token
-export async function verifyJwtToken(token: string): Promise<JwtPayload> {
-    const secret = process.env.JWT_SECRET;
+export function verifyJwtToken(token: string) {
+    const secret = process.env.JWT_SECRET || 'your-secret-key';
 
-    if (!secret) {
-        throw new Error('JWT_SECRET is not defined in environment variables');
+    try {
+        return jwt.verify(token, secret);
+    } catch (error) {
+        return null;
     }
-
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(decoded as JwtPayload);
-            }
-        });
-    });
 }
 
 // Debug function to check token validity
@@ -78,4 +68,29 @@ export function debugJwtToken(token: string): { valid: boolean; payload?: JwtPay
             error: error instanceof Error ? error.message : 'Unknown error'
         };
     }
+}
+
+// Auth utilities for client
+export function getAuthToken() {
+    if (typeof window === 'undefined') return null;
+
+    return localStorage.getItem('auth_token');
+}
+
+export function setAuthToken(token: string) {
+    if (typeof window === 'undefined') return;
+
+    localStorage.setItem('auth_token', token);
+}
+
+export function clearAuthToken() {
+    if (typeof window === 'undefined') return;
+
+    localStorage.removeItem('auth_token');
+}
+
+export function getAuthHeader() {
+    const token = getAuthToken();
+
+    return token ? { Authorization: `Bearer ${token}` } : {};
 }
