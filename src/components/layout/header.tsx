@@ -59,24 +59,29 @@ export function Header() {
                     </nav>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <div className="relative hidden w-full max-w-sm md:flex">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-                        <Input
-                            type="search"
-                            placeholder="Search collections and NFTs..."
-                            className="w-full rounded-full bg-slate-100 pl-9 focus-visible:ring-blue-500"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" && searchQuery.trim())
-                                    window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
-                            }}
-                        />
+                <div className="flex gap-4">
+                    <div className="flex items-center">
+                        <div className="relative hidden w-full max-w-md md:flex">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+                            <Input
+                                type="search"
+                                placeholder="Collections and NFTs..."
+                                className="w-full rounded-full bg-slate-100 pl-9 focus-visible:ring-blue-500"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && searchQuery.trim())
+                                        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
+                                }}
+                            />
+                        </div>
                     </div>
-
-                    <ConnectButton />
+                    <div className="flex items-center ">
+                        <ConnectButton />
+                    </div>
                 </div>
+
+
             </div>
         </header>
     )

@@ -16,7 +16,7 @@ export default function HomePage() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Discover, Collect, and Sell NFTs on any chain
+                  Discover, Collect, and Sell NFTs on <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">Any Chain</span>
                 </h1>
                 <p className="max-w-[600px] text-slate-500 md:text-xl dark:text-slate-400">
                   NFTsea is the world&apos;s first cross-chain NFT marketplace built on Espresso Systems. Buy, sell, create and trade NFTs with ease.
