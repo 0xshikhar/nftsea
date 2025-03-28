@@ -15,56 +15,91 @@ datasource db {
 
 
 model User {
-  id            String         @id @default(cuid())
-  address       String         @unique
-  username      String?        @unique
+  id            String    @id @default(cuid())
+  address       String    @unique // Ethereum address is unique
+  username      String?
   bio           String?
-  avatar        String?
+  avatarUrl     String?
+  twitterUrl    String?
+  websiteUrl    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
   collections   Collection[]
   nfts          NFT[]
-  listings      Listing[]
   likes         Like[]
   comments      Comment[]
-  followers     Follows[]      @relation("following")
-  following     Follows[]      @relation("follower")
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
 }
 
 model Collection {
-  id            String         @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String
   symbol        String
   description   String?
-  logo          String
+  logoUrl       String?
+  bannerUrl     String?
+  contractAddress String?  @unique
+  metadataUrl   String?
   chainId       Int
-  contractAddress String?
-  isVerified    Boolean       @default(false)
-  creator       User          @relation(fields: [creatorId], references: [id])
+  verified      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
+  creator       User      @relation(fields: [creatorId], references: [id])
   creatorId     String
   nfts          NFT[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
 }
 
 model NFT {
-  id            String        @id @default(cuid())
-  tokenId       Int?
+  id            String    @id @default(cuid())
   name          String
   description   String?
-  image         String
-  supply        Int          @default(1)
-  traits        Json?
-  externalLink  String?
-  collection    Collection    @relation(fields: [collectionId], references: [id])
-  collectionId  String
-  creator       User         @relation(fields: [creatorId], references: [id])
+  imageUrl      String
+  metadataUrl   String
+  tokenId       String?
+  supply        Int       @default(1)
+  price         String?
+  currency      String    @default("ETH")
+  listed        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
+  creator       User      @relation(fields: [creatorId], references: [id])
   creatorId     String
-  listings      Listing[]
+  collection    Collection @relation(fields: [collectionId], references: [id])
+  collectionId  String
+  owner         String?   // Current owner's address
   likes         Like[]
   comments      Comment[]
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  nft       NFT      @relation(fields: [nftId], references: [id])
+  nftId     String
+
+  @@unique([userId, nftId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  nft       NFT      @relation(fields: [nftId], references: [id])
+  nftId     String
 }
 
 model Listing {
@@ -76,28 +111,6 @@ model Listing {
   nftId         String
   seller        User         @relation(fields: [sellerId], references: [id])
   sellerId      String
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-}
-
-model Like {
-  id            String        @id @default(cuid())
-  user          User         @relation(fields: [userId], references: [id])
-  userId        String
-  nft           NFT          @relation(fields: [nftId], references: [id])
-  nftId         String
-  createdAt     DateTime     @default(now())
-
-  @@unique([userId, nftId])
-}
-
-model Comment {
-  id            String        @id @default(cuid())
-  content       String
-  user          User         @relation(fields: [userId], references: [id])
-  userId        String
-  nft           NFT          @relation(fields: [nftId], references: [id])
-  nftId         String
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 }
