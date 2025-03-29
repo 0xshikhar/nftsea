@@ -4,9 +4,8 @@
 import axios from 'axios'
 import FormData from 'form-data'
 
-// Replace with your actual Pinata API keys
-const PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
-const PINATA_SECRET_API_KEY = process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY || ''
+const PINATA_API_KEY = process.env.PINATA_API || ''
+const PINATA_SECRET_API_KEY = process.env.PINATA_SECRET || ''
 
 /**
  * Upload a file or object to IPFS using Pinata

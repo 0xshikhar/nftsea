@@ -4,17 +4,18 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Search } from "lucide-react"
+import { Search, Settings, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 // import { WalletConnect } from "@/components/blockchain/wallet-connect"
 import { MobileNav } from "./mobile-nav"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
-
+import { useAccount } from "wagmi"
 export function Header() {
     const [searchQuery, setSearchQuery] = useState("")
     const pathname = usePathname()
+    const { address, isConnected } = useAccount()
 
     const navItems = [
         { name: "Explore", href: "/explore" },
@@ -58,25 +59,39 @@ export function Header() {
                         ))}
                     </nav>
                 </div>
+                <div className="flex items-center w-[300px] md:w-[400px] lg:w-[600px] px-5 relative hidden md:flex ">
+                    <Search className="absolute left-7 top-2.5 h-4 w-4 text-slate-500" />
+                    <Input
+                        type="search"
+                        placeholder="Collections and NFTs..."
+                        className="w-full rounded-full bg-slate-100 pl-9 focus-visible:ring-blue-500"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" && searchQuery.trim())
+                                window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
+                        }}
+                    />
+                </div>
 
-                <div className="flex gap-4">
-                    <div className="flex items-center">
-                        <div className="relative hidden w-full max-w-md md:flex">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-                            <Input
-                                type="search"
-                                placeholder="Collections and NFTs..."
-                                className="w-full rounded-full bg-slate-100 pl-9 focus-visible:ring-blue-500"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" && searchQuery.trim())
-                                        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex items-center ">
+                <div className="flex gap-2">
+                    {isConnected && (
+                        <>
+                            <Link href="/settings" className="flex items-center">
+                                <Button variant="ghost" size="icon">
+                                    <Settings className="h-4 w-4" />
+                                </Button>
+                            </Link>
+                            <Link href={`/profile/${address}`} className="flex items-center">
+                                <Button variant="ghost" size="icon">
+                                    <User className="h-4 w-4" />
+                                </Button>
+
+                            </Link>
+                        </>
+                    )}
+
+                    <div className="flex">
                         <ConnectButton />
                     </div>
                 </div>
