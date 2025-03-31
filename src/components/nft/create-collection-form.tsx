@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { SUPPORTED_CHAINS } from "@/lib/constants"
 import { uploadToIPFS } from "@/lib/ipfs"
+import { contractABIs, contractAddresses } from "@/lib/contracts"
 
 const formSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 characters"),
@@ -60,9 +61,9 @@ export function CreateCollectionForm() {
             const metadataUrl = await uploadToIPFS(JSON.stringify(metadata))
 
             // Deploy collection contract
-            const { hash } = await writeContract({
-                address: "YOUR_FACTORY_CONTRACT",
-                abi: ["YOUR_FACTORY_ABI"],
+            const hash = await writeContract({
+                address: contractAddresses.factoryProxy as `0x${string}`,
+                abi: [contractABIs.nft],
                 functionName: "createCollection",
                 args: [values.name, values.symbol, metadataUrl]
             })

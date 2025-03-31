@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { NFT_CATEGORIES, FILE_TYPES, MAX_FILE_SIZE } from "@/lib/constants"
 import { uploadToIPFS } from "@/lib/ipfs"
+import { contractABIs, contractAddresses } from "@/lib/contracts"
 
 const formSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 characters"),
@@ -92,9 +93,9 @@ export function CreateNFTForm() {
             const metadataUrl = await uploadToIPFS(JSON.stringify(metadata))
 
             // Mint NFT
-            const { hash } = await writeContract({
-                address: "YOUR_NFT_CONTRACT",
-                abi: ["YOUR_NFT_ABI"],
+            const hash = await writeContract({
+                address: contractAddresses.nft as `0x${string}`,
+                abi: [contractABIs.nft],
                 functionName: "mint",
                 args: [values.collectionId, values.supply, metadataUrl]
             })

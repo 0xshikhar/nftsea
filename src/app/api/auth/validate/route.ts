@@ -14,10 +14,10 @@ export async function GET(request: NextRequest) {
             where: { id: user.userId },
             select: {
                 id: true,
-                walletAddress: true,
+                address: true,
                 username: true,
                 createdAt: true,
-                lastLoginAt: true,
+                updatedAt: true,
             }
         });
 

@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     try {
         console.log(`Checking database for user with address: ${normalizedAddress}`);
         const user = await prisma.user.findUnique({
-            where: { walletAddress: normalizedAddress },
+            where: { address: normalizedAddress },
             select: { id: true }
         });
 

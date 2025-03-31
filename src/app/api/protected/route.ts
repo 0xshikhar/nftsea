@@ -23,10 +23,10 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
             user: {
                 id: userData.id,
-                walletAddress: userData.walletAddress,
+                address: userData.address,
                 username: userData.username,
                 createdAt: userData.createdAt,
-                lastLoginAt: userData.lastLoginAt,
+                updatedAt: userData.updatedAt,
                 // Include other fields as needed
             }
         });

@@ -38,11 +38,11 @@ export async function POST(request: NextRequest) {
 
     // Find or create user in database
     const user = await prisma.user.upsert({
-      where: { walletAddress: walletAddress.toLowerCase() },
-      update: { lastLoginAt: new Date() },
+      where: { address: walletAddress.toLowerCase() },
+      update: { updatedAt: new Date() },
       create: {
-        walletAddress: walletAddress.toLowerCase(),
-        lastLoginAt: new Date(),
+        address: walletAddress.toLowerCase(),
+        updatedAt: new Date(),
       },
     });
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     // Generate JWT token
     const token = generateJwtToken({
       userId: user.id,
-      address: user.walletAddress,
+      address: user.address,
     });
 
     console.log('Token:', token);
@@ -61,13 +61,11 @@ export async function POST(request: NextRequest) {
       token,
       user: {
         id: user.id,
-        walletAddress: user.walletAddress,
+        address: user.address,
         username: user.username,
         createdAt: user.createdAt,
-        lastLoginAt: user.lastLoginAt,
         avatar: user.avatar,
         bio: user.bio,
-        NFTid: user.NFTid
       }
     });
   } catch (error) {

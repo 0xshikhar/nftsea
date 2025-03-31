@@ -42,19 +42,29 @@ export default async function middleware(request: NextRequest) {
         try {
             // Verify the token
             const decoded = await verifyJwtToken(token);
-            console.log(`Token verified for user: ${decoded.userId}`);
 
-            // Add user info to request headers to be accessible in route handlers
-            const requestHeaders = new Headers(request.headers);
-            requestHeaders.set('x-user-id', decoded.userId);
-            requestHeaders.set('x-user-address', decoded.address);
+            // Type guard to ensure decoded is of type JwtPayload
+            if (typeof decoded !== 'string') {
+                console.log(`Token verified for user: ${decoded?.userId}`);
 
-            // Return the request with modified headers
-            return NextResponse.next({
-                request: {
-                    headers: requestHeaders,
-                },
-            });
+                // Add user info to request headers to be accessible in route handlers
+                const requestHeaders = new Headers(request.headers);
+                requestHeaders.set('x-user-id', decoded?.userId as string);
+                requestHeaders.set('x-user-address', decoded?.address as string);
+
+                // Return the request with modified headers
+                return NextResponse.next({
+                    request: {
+                        headers: requestHeaders,
+                    },
+                });
+            }
+
+            console.error(`Invalid token: ${decoded}`);
+            return NextResponse.json(
+                { error: 'Invalid token' },
+                { status: 401 }
+            );
         } catch (error) {
             console.error(`Token verification failed for path ${pathname}:`, error);
             return NextResponse.json(
