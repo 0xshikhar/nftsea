@@ -30,7 +30,6 @@ Check out the live demo: [Next14 Web3 Template](https://github.com/0xShikhar/nex
 - pnpm, npm, or yarn (pnpm recommended)
 - PostgreSQL database (for Prisma)
 
-
 ## Key Components
 
 ### Web3 Integration
@@ -61,11 +60,13 @@ This template uses Tailwind CSS for styling. You can customize the theme in `tai
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/0xShikhar/next14-web3-template.git
    ```
 
 2. Install dependencies:
+
    ```bash
    cd next14-web3-template
    pnpm install
@@ -77,11 +78,13 @@ This template uses Tailwind CSS for styling. You can customize the theme in `tai
 
 3. Set up environment variables:
    Create a `.env.local` file in the root directory with the following variables:
+
    ```
    JWT_SECRET=your_jwt_secret
    ```
 
 4. Generate Prisma client:
+
    ```bash
    npx prisma generate
    ```
@@ -94,7 +97,6 @@ This template uses Tailwind CSS for styling. You can customize the theme in `tai
    # or
    yarn dev
    ```
-
 
 ## Deployment
 
@@ -112,6 +114,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 You can also deploy to other platforms that support Next.js:
 
 1. Build the application:
+
    ```bash
    pnpm build
    # or
@@ -160,4 +163,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 Built with ❤️ by [0xShikhar](https://0xshikhar.xyz)
+
+```
+
 ```
