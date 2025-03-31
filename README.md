@@ -1,8 +1,44 @@
-# Next.js14 Web3 Template with Prisma
+# NFTsea
 
-A modern, feature-rich Next.js 14+ starter template for building web3 applications with app router, wagmi, RainbowKit, Prisma, shadcn/ui, and more.
+NFTsea is a NFT marketplace built on top of NFTsea Network Rollup using Espresso Rollup.The NFTsea Network is a espresso rollup designed to facilitate cross-chain NFT transactions, providing a scalable and efficient solution for managing NFTs across different blockchain networks like Ethereum, Arbitrum, and more.
 
-![Next.js Web3 Template](https://github.com/0xShikhar/next14-web3-template/raw/main/public/og.jpg)
+## Configuration
+
+### Network Configuration
+
+you can connect to NFTsea Network by using the following configuration:
+
+- **Network Name**: NFTsea Network
+- **RPC URL**: http://47.130.1.66:8550/
+- **Chain ID**: 336699
+- **Currency Symbol**: ETH
+
+### Brige ETH from Arbritum Sepolia to NFTsea Network
+
+you can bridge ETH from Arbritum Sepolia to NFTsea Network by using the following configuration:
+
+```
+cast send --rpc-url https://arbitrum-sepolia-rpc.publicnode.com 0xA13a71A6995254950BcdE216F675B867C7EB9882 'depositEth() external payable returns (uint256)' --private-key WALLET_PRIVATE_KEY_WITH_ARBITRUM_SEPOLIA_ETH  --value 1000000000000 -vvvv
+```
+
+once you have bridged the ETH, you can see the balance of your wallet in NFTsea Network by using the following command:
+
+```
+cast balance --rpc-url http://47.130.1.66:8550/ YOUR_WALLET_ADDRESS
+```
+
+or you see balance in metamask by switching to NFTsea Network
+
+![NFTsea Network in Metamask](./public/metamask.png)
+
+### NFT Marketplace Payment Processor
+
+| Chain            | Contract Address                           | Block Explorer Link                                                                                             |
+| ---------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| Ethereum Sepolia | 0xc645bC39C280bCF02828a9e785C27cBe93365640 | [Block Explorer](https://eth-sepolia.blockscout.com/address/0xc645bC39C280bCF02828a9e785C27cBe93365640)         |
+| Arbitrum Sepolia | 0x364D49ADd9425e17e4B443BD06890C289F23F1ed | [Arbitrum Explorer](https://arbitrum-sepolia.blockscout.com/address/0x364D49ADd9425e17e4B443BD06890C289F23F1ed) |
+| Scroll Sepolia   | 0xC284Be07898768F0818aAeC84A0bD95Bc5275670 | [Scroll Explorer](https://scroll-sepolia.blockscout.com/address/0xC284Be07898768F0818aAeC84A0bD95Bc5275670)     |
+| Optimism Sepolia | 0xC284Be07898768F0818aAeC84A0bD95Bc5275670 | [Optimism Explorer](https://optimism-sepolia.blockscout.com/address/0xC284Be07898768F0818aAeC84A0bD95Bc5275670) |
 
 ## Features
 
