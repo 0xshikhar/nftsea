@@ -29,7 +29,7 @@ export function Header() {
                 <div className="flex items-center gap-2 md:gap-10">
                     <Link href="/" className="hidden items-center space-x-2 md:flex">
                         <Image
-                            src="/logo.svg"
+                            src="/logo.png"
                             alt="NFTsea logo"
                             width={32}
                             height={32}
